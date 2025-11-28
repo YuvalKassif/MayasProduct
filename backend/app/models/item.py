@@ -42,9 +42,7 @@ class Item(Base):
         back_populates="item", cascade="all, delete-orphan"
     )
 
-    __table_args__ = (
-        CheckConstraint("price_cents >= 0", name="ck_items_price_nonnegative"),
-    )
+    __table_args__ = (CheckConstraint("price_cents >= 0", name="ck_items_price_nonnegative"),)
 
 
 class ItemImage(Base):

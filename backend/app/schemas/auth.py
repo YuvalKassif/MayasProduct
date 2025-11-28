@@ -16,4 +16,3 @@ class UserOut(BaseModel):
     email: EmailStr
     email_verified: bool
     role: str
-

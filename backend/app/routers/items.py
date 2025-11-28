@@ -6,9 +6,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from ..db import get_session
 from ..models.item import Item
-from ..schemas.items import ItemCreate, ItemOut, ItemUpdate, ItemsListOut
+from ..schemas.items import ItemCreate, ItemOut, ItemsListOut, ItemUpdate
 from ..security.deps import get_current_user_id
-
 
 router = APIRouter(prefix="/items", tags=["items"])
 

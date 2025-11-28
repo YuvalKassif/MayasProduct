@@ -7,7 +7,6 @@ import jwt
 
 from ..config import settings
 
-
 ALG = "HS256"
 
 

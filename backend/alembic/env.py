@@ -26,6 +26,7 @@ fileConfig(config.config_file_name)  # type: ignore[arg-type]
 
 target_metadata = Base.metadata
 
+
 def get_url() -> str:
     return os.getenv("DATABASE_URL", "postgresql+asyncpg://postgres:postgres@db:5432/app")
 
@@ -48,6 +49,7 @@ def run_migrations_online() -> None:
         connectable: AsyncEngine = create_async_engine(get_url(), poolclass=pool.NullPool)
 
         async with connectable.connect() as connection:
+
             def sync_run(conn: Connection) -> None:
                 context.configure(
                     connection=conn,

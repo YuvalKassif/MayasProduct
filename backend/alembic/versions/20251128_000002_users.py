@@ -4,9 +4,9 @@ users table
 Create Date: 2025-11-28
 """
 
-from alembic import op
 import sqlalchemy as sa
 
+from alembic import op
 
 revision = "20251128_000002"
 down_revision = "20241128_000001"

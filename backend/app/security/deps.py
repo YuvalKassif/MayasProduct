@@ -4,7 +4,6 @@ from fastapi import Cookie, Header, HTTPException, status
 
 from .jwt import decode_token
 
-
 ACCESS_COOKIE = "access_token"
 
 

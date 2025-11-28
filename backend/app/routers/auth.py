@@ -11,7 +11,6 @@ from ..schemas.auth import LoginRequest, RegisterRequest, UserOut
 from ..security.jwt import create_access_token, create_refresh_token, decode_token
 from ..security.passwords import hash_password, verify_password
 
-
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 

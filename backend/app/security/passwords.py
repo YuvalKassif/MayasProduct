@@ -17,4 +17,3 @@ def verify_password(password: str, password_hash: str) -> bool:
         return False
     except Exception:
         return False
-
