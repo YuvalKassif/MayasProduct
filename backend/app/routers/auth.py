@@ -97,11 +97,17 @@ async def logout(resp: Response):
 
 
 @router.get("/me", response_model=UserOut)
-async def me(access_token: str | None = None, session: AsyncSession = Depends(get_session)):
-    if not access_token:
+async def me(
+    access_token: str | None = None,
+    access_cookie: str | None = Cookie(default=None, alias=COOKIE_ACCESS),
+    session: AsyncSession = Depends(get_session),
+):
+    # Prefer explicit param; fall back to cookie for browser flows
+    token = access_token or access_cookie
+    if not token:
         raise HTTPException(status_code=401, detail="Missing access token")
     try:
-        payload = decode_token(access_token)
+        payload = decode_token(token)
         if payload.get("type") != "access":
             raise HTTPException(status_code=400, detail="Invalid token type")
         sub = payload.get("sub")
