@@ -1,4 +1,5 @@
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 
@@ -9,4 +10,3 @@ def test_health_ok():
     data = r.json()
     assert data.get("status") == "ok"
     assert "version" in data
-

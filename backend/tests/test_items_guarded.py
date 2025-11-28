@@ -1,5 +1,7 @@
 import os
+
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 
@@ -55,4 +57,3 @@ def test_items_crud_guarded():
     # Delete
     r = client.delete(f"/items/{item_id}")
     assert r.status_code == 204
-

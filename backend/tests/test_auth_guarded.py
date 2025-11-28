@@ -1,5 +1,7 @@
 import os
+
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 
@@ -28,4 +30,3 @@ def test_register_login_me_guarded():
     r = client.get("/auth/me", params={"access_token": access})
     assert r.status_code == 200
     assert r.json()["email"] == email
-

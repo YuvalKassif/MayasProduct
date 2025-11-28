@@ -1,5 +1,7 @@
 import os
+
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 
@@ -11,4 +13,3 @@ def test_db_health_guarded():
     r = client.get("/health/db")
     assert r.status_code == 200
     assert r.json().get("database") == "ok"
-
