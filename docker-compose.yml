@@ -1,4 +1,22 @@
 services:
+  db:
+    image: postgres:16-alpine
+    container_name: shc-db
+    environment:
+      - POSTGRES_DB=app
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d app"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 5s
+
   api:
     build: ./backend
     container_name: shc-api
@@ -6,13 +24,19 @@ services:
       - APP_ENV=local
       - APP_LOG_LEVEL=INFO
       - APP_CORS_ORIGINS=http://localhost:5173
+      - DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/app
     ports:
       - "8000:8000"
     volumes:
       - ./backend/app:/app/app:ro
     restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
 
 networks:
   default:
     name: shc-net
 
+volumes:
+  pgdata:

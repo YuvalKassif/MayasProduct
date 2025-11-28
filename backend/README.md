@@ -18,3 +18,13 @@ Docker
 - Build: docker build -t shc-backend:dev .
 - Run: docker run -p 8000:8000 shc-backend:dev
 
+Database & migrations
+- The Docker Compose stack provides Postgres at `db:5432` with `DATABASE_URL` set.
+- Alembic runs automatically on container start (`alembic upgrade head`).
+- Manual migration commands (from `backend/`):
+  - Generate: `alembic revision --autogenerate -m "message"`
+  - Apply: `alembic upgrade head`
+  - Downgrade: `alembic downgrade -1`
+
+DB health check
+- GET http://localhost:8000/health/db → { "database": "ok" }
