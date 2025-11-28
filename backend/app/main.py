@@ -4,6 +4,7 @@ from .config import settings
 from .routers import health as health_router
 from .routers import db_health as db_health_router
 from .routers import auth as auth_router
+from .routers import items as items_router
 from .version import APP_NAME, APP_VERSION
 
 
@@ -29,6 +30,7 @@ def create_app() -> FastAPI:
     app.include_router(health_router.router)
     app.include_router(db_health_router.router)
     app.include_router(auth_router.router)
+    app.include_router(items_router.router)
 
     return app
 

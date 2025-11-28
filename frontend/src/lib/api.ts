@@ -1,5 +1,7 @@
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000'
 
+export type Json = Record<string, any>
+
 async function request(path: string, options: RequestInit = {}) {
   const res = await fetch(`${BASE_URL}${path}`, {
     credentials: 'include',
@@ -27,7 +29,19 @@ export const api = {
   refresh: () => request('/auth/refresh', { method: 'POST' }),
   health: () => request('/health'),
   dbHealth: () => request('/health/db'),
+  // Items
+  listItems: (params?: { limit?: number; offset?: number; seller_id?: string }) => {
+    const usp = new URLSearchParams()
+    if (params?.limit) usp.set('limit', String(params.limit))
+    if (params?.offset) usp.set('offset', String(params.offset))
+    if (params?.seller_id) usp.set('seller_id', params.seller_id)
+    const q = usp.toString()
+    return request(`/items${q ? `?${q}` : ''}`)
+  },
+  getItem: (id: string) => request(`/items/${id}`),
+  createItem: (body: Json) => request('/items', { method: 'POST', body: JSON.stringify(body) }),
+  updateItem: (id: string, body: Json) => request(`/items/${id}`, { method: 'PATCH', body: JSON.stringify(body) }),
+  deleteItem: (id: string) => request(`/items/${id}`, { method: 'DELETE' }),
 }
 
 export default api
-
