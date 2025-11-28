@@ -1,15 +1,15 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status, Cookie
-from sqlalchemy.ext.asyncio import AsyncSession
+from fastapi import APIRouter, Cookie, Depends, HTTPException, Response, status
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from ..config import settings
 from ..db import get_session
 from ..models.user import User
-from ..schemas.auth import RegisterRequest, LoginRequest, UserOut
-from ..security.passwords import hash_password, verify_password
+from ..schemas.auth import LoginRequest, RegisterRequest, UserOut
 from ..security.jwt import create_access_token, create_refresh_token, decode_token
-from ..config import settings
+from ..security.passwords import hash_password, verify_password
 
 
 router = APIRouter(prefix="/auth", tags=["auth"])
@@ -37,7 +37,11 @@ def clear_auth_cookies(resp: Response) -> None:
 
 
 @router.post("/register", response_model=UserOut, status_code=status.HTTP_201_CREATED)
-async def register(payload: RegisterRequest, resp: Response, session: AsyncSession = Depends(get_session)):
+async def register(
+    payload: RegisterRequest,
+    resp: Response,
+    session: AsyncSession = Depends(get_session),
+):
     email = payload.email.lower()
     existing = await session.execute(select(User).where(User.email == email))
     if existing.scalar_one_or_none():
@@ -55,11 +59,19 @@ async def register(payload: RegisterRequest, resp: Response, session: AsyncSessi
 
 
 @router.post("/login", response_model=UserOut)
-async def login(payload: LoginRequest, resp: Response, session: AsyncSession = Depends(get_session)):
+async def login(
+    payload: LoginRequest,
+    resp: Response,
+    session: AsyncSession = Depends(get_session),
+):
     email = payload.email.lower()
     result = await session.execute(select(User).where(User.email == email))
     user = result.scalar_one_or_none()
-    if not user or not user.password_hash or not verify_password(payload.password, user.password_hash):
+    if (
+        not user
+        or not user.password_hash
+        or not verify_password(payload.password, user.password_hash)
+    ):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     access = create_access_token(user.id)
@@ -69,7 +81,11 @@ async def login(payload: LoginRequest, resp: Response, session: AsyncSession = D
 
 
 @router.post("/refresh")
-async def refresh(resp: Response, refresh_token: str | None = None, refresh_cookie: str | None = Cookie(default=None, alias=COOKIE_REFRESH)):
+async def refresh(
+    resp: Response,
+    refresh_token: str | None = None,
+    refresh_cookie: str | None = Cookie(default=None, alias=COOKIE_REFRESH),
+):
     # Accept from explicit body param or cookie
     token = refresh_token or refresh_cookie
     if token is None:

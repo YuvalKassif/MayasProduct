@@ -1,59 +1,58 @@
 from __future__ import annotations
 
-from typing import Optional
 from pydantic import BaseModel, Field
 
 
 class ItemImageOut(BaseModel):
     id: str
     original_key: str
-    thumb_key: Optional[str] = None
-    medium_key: Optional[str] = None
-    width: Optional[int] = None
-    height: Optional[int] = None
+    thumb_key: str | None = None
+    medium_key: str | None = None
+    width: int | None = None
+    height: int | None = None
     sort_order: int
 
 
 class ItemCreate(BaseModel):
     title: str = Field(max_length=200)
-    description: Optional[str] = None
+    description: str | None = None
     category: str
-    brand: Optional[str] = None
-    size: Optional[str] = None
+    brand: str | None = None
+    size: str | None = None
     condition: str
     price_cents: int = Field(ge=0)
     currency: str = Field(min_length=3, max_length=3)
-    location_city: Optional[str] = None
-    location_country: Optional[str] = None
+    location_city: str | None = None
+    location_country: str | None = None
 
 
 class ItemUpdate(BaseModel):
-    title: Optional[str] = Field(default=None, max_length=200)
-    description: Optional[str] = None
-    category: Optional[str] = None
-    brand: Optional[str] = None
-    size: Optional[str] = None
-    condition: Optional[str] = None
-    price_cents: Optional[int] = Field(default=None, ge=0)
-    currency: Optional[str] = Field(default=None, min_length=3, max_length=3)
-    location_city: Optional[str] = None
-    location_country: Optional[str] = None
-    status: Optional[str] = None
+    title: str | None = Field(default=None, max_length=200)
+    description: str | None = None
+    category: str | None = None
+    brand: str | None = None
+    size: str | None = None
+    condition: str | None = None
+    price_cents: int | None = Field(default=None, ge=0)
+    currency: str | None = Field(default=None, min_length=3, max_length=3)
+    location_city: str | None = None
+    location_country: str | None = None
+    status: str | None = None
 
 
 class ItemOut(BaseModel):
     id: str
     seller_id: str
     title: str
-    description: Optional[str]
+    description: str | None
     category: str
-    brand: Optional[str]
-    size: Optional[str]
+    brand: str | None
+    size: str | None
     condition: str
     price_cents: int
     currency: str
-    location_city: Optional[str]
-    location_country: Optional[str]
+    location_city: str | None
+    location_country: str | None
     status: str
     images: list[ItemImageOut] = []
 
@@ -61,4 +60,3 @@ class ItemOut(BaseModel):
 class ItemsListOut(BaseModel):
     items: list[ItemOut]
     total: int
-

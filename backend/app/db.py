@@ -1,7 +1,13 @@
 from collections.abc import AsyncGenerator
-from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, async_sessionmaker, create_async_engine
-from sqlalchemy import text
+
 from fastapi import Depends
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import (
+    AsyncEngine,
+    AsyncSession,
+    async_sessionmaker,
+    create_async_engine,
+)
 
 from .config import settings
 
@@ -32,4 +38,3 @@ async def ping_db(session: AsyncSession = Depends(get_session)) -> bool:
         return row == 1
     except Exception:
         return False
-

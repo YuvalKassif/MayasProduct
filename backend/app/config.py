@@ -1,5 +1,5 @@
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pydantic import Field, AliasChoices
 
 
 class Settings(BaseSettings):
@@ -17,7 +17,10 @@ class Settings(BaseSettings):
     )
 
     # Security/JWT
-    jwt_secret: str = Field(default="dev-secret-change-me", validation_alias=AliasChoices("JWT_SECRET", "APP_JWT_SECRET"))
+    jwt_secret: str = Field(
+        default="dev-secret-change-me",
+        validation_alias=AliasChoices("JWT_SECRET", "APP_JWT_SECRET"),
+    )
     jwt_access_minutes: int = 15
     jwt_refresh_days: int = 7
     cookie_domain: str | None = None

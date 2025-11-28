@@ -125,4 +125,3 @@ async def _to_item_out(item: Item, session: AsyncSession) -> ItemOut:
         status=item.status,
         images=[],
     )
-

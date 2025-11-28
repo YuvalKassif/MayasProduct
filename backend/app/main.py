@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from .config import settings
-from .routers import health as health_router
-from .routers import db_health as db_health_router
 from .routers import auth as auth_router
+from .routers import db_health as db_health_router
+from .routers import health as health_router
 from .routers import items as items_router
 from .version import APP_NAME, APP_VERSION
 

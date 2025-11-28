@@ -1,22 +1,21 @@
 from __future__ import annotations
 
+import asyncio
 import os
 import sys
-from pathlib import Path
 from logging.config import fileConfig
+from pathlib import Path
 
-from sqlalchemy import pool
-from sqlalchemy import Connection
-from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
-import asyncio
 from alembic import context
+from sqlalchemy import Connection, pool
+from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
 # Ensure project root is on sys.path so `import app` works when running from alembic dir
 ROOT_DIR = Path(__file__).resolve().parents[1]
 if str(ROOT_DIR) not in sys.path:
     sys.path.insert(0, str(ROOT_DIR))
 
-from app.models import Base
+from app.models import Base  # noqa: E402
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -33,7 +32,12 @@ def get_url() -> str:
 
 def run_migrations_offline() -> None:
     url = get_url()
-    context.configure(url=url, target_metadata=target_metadata, literal_binds=True, compare_type=True)
+    context.configure(
+        url=url,
+        target_metadata=target_metadata,
+        literal_binds=True,
+        compare_type=True,
+    )
 
     with context.begin_transaction():
         context.run_migrations()
@@ -45,7 +49,11 @@ def run_migrations_online() -> None:
 
         async with connectable.connect() as connection:
             def sync_run(conn: Connection) -> None:
-                context.configure(connection=conn, target_metadata=target_metadata, compare_type=True)
+                context.configure(
+                    connection=conn,
+                    target_metadata=target_metadata,
+                    compare_type=True,
+                )
                 with context.begin_transaction():
                     context.run_migrations()
 

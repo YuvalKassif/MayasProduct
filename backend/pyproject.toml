@@ -5,11 +5,13 @@ target-version = ["py312"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+
+[tool.ruff.lint]
 select = [
   "E",  # pycodestyle errors
   "F",  # pyflakes
   "W",  # pycodestyle warnings
-  "I",  # isort
+  "I",  # import sorting
   "UP", # pyupgrade
 ]
 ignore = []
@@ -17,4 +19,3 @@ ignore = []
 [tool.ruff.lint.isort]
 known-first-party = ["app"]
 force-sort-within-sections = true
-
