@@ -4,8 +4,8 @@ items tables
 Create Date: 2025-11-28
 """
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
 
 
 revision = "20251128_000003"

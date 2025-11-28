@@ -4,8 +4,8 @@ initial_system_settings
 Create Date: 2024-11-28
 """
 
-import sqlalchemy as sa
 from alembic import op
+import sqlalchemy as sa
 
 
 revision = "20241128_000001"

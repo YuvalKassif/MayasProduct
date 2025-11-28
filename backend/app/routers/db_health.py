@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from ..db import get_session
 
 
-router = APIRouter(tags=["health"]) 
+router = APIRouter(tags=["health"])
 
 
 @router.get("/health/db")
