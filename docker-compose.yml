@@ -1,0 +1,18 @@
+services:
+  api:
+    build: ./backend
+    container_name: shc-api
+    environment:
+      - APP_ENV=local
+      - APP_LOG_LEVEL=INFO
+      - APP_CORS_ORIGINS=http://localhost:5173
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app/app:ro
+    restart: unless-stopped
+
+networks:
+  default:
+    name: shc-net
+
